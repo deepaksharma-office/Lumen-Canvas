@@ -1,0 +1,33 @@
+{% liquid
+  assign menu_label = block.settings.mobile_label | default: block.settings.menu.title | default: 'Menu'
+%}
+<div class="lumen-header__menu" style="--lh-menu-gap: {{ block.settings.link_gap }}px; --lh-menu-size: {{ block.settings.font_size }}px; --lh-menu-align: {{ block.settings.alignment }};" {{ block.shopify_attributes }}>
+  {% if block.settings.menu != blank %}
+    <nav class="lumen-header__nav" aria-label="{{ menu_label | escape }}">
+      {% for link in block.settings.menu.links %}
+        <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+      {% endfor %}
+    </nav>
+    <details class="lumen-header__mobile-menu">
+      <summary>{{ menu_label | escape }}</summary>
+      <nav class="lumen-header__mobile-links" aria-label="{{ menu_label | escape }}">
+        {% for link in block.settings.menu.links %}
+          <a href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title | escape }}</a>
+        {% endfor %}
+      </nav>
+    </details>
+  {% endif %}
+</div>
+{% schema %}
+{
+  "name": "Bar horizontal menu",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu" },
+    { "type": "text", "id": "mobile_label", "label": "Mobile menu label override", "info": "Leave blank to use the selected menu's name." },
+    { "type": "select", "id": "alignment", "label": "Desktop alignment", "options": [{ "value": "flex-start", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "flex-end", "label": "Right" }], "default": "center" },
+    { "type": "range", "id": "link_gap", "label": "Desktop link gap", "min": 8, "max": 64, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "font_size", "label": "Menu font size", "min": 10, "max": 24, "step": 1, "unit": "px", "default": 12 }
+  ],
+  "presets": [{ "name": "Bar horizontal menu" }]
+}
+{% endschema %}

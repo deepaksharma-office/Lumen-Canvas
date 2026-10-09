@@ -1,0 +1,67 @@
+{{ 'lumen-header.css' | asset_url | stylesheet_tag }}
+<section>
+<div
+  id="LumenHeader-{{ section.id }}"
+  class="section section--page-width color-custom-{{ section.id }} lumen-header"
+  style="
+    --lh-bg: {{ section.settings.background_color }};
+    --lh-text: {{ section.settings.text_color }};
+    --lh-accent: {{ section.settings.accent_color }};
+    --lh-pad-top: {{ section.settings.padding_top }}px;
+    --lh-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --lh-gap: {{ section.settings.column_gap }}px;
+  "
+>
+  <div class="lumen-header__inner">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+</section>
+
+{% schema %}
+{
+  "name": "Logo menu social bar",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#091120" },
+    { "type": "color", "id": "text_color", "label": "Text and icon color", "default": "#FFFFFF" },
+    { "type": "color", "id": "accent_color", "label": "Accent and focus color", "default": "#18A9EA" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Gap between blocks",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "blocks": [{ "type": "_lumen-logo" }, { "type": "_lumen-menu" }, { "type": "_lumen-social" }, {"type": "social-links"}],
+  "presets": [
+    {
+      "name": "Logo menu social bar",
+      "blocks": [{ "type": "_lumen-logo" }, { "type": "_lumen-menu" }, { "type": "social-links" }]
+    }
+  ]
+}
+{% endschema %}
